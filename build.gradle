@@ -19,6 +19,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "http://artifactory.jsecode.com/artifactory/ecode-android" }
     }
 }
 

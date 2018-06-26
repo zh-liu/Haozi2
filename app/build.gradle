@@ -10,12 +10,66 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+
+        debug {
+            storeFile file("../jsecode.jks")
+            storePassword "jsecode@123"
+
+            //androiddebugkey, 2015-12-18, PrivateKeyEntry,
+            //证书指纹 (SHA1): 96:C1:4E:3C:4F:84:17:ED:56:64:56:07:BD:60:EB:4C:85:BB:AE:D3
+        }
+
+        release {
+            storeFile file("../jsecode.jks")
+            storePassword "jsecode@123"
+            keyAlias "androidreleasekey"
+            keyPassword "jsecode@123"
+
+            //androidreleasekey, 2015-12-18, PrivateKeyEntry,
+            //证书指纹 (SHA1): 88:0F:D9:FB:3A:B2:8D:F6:83:F0:04:A2:A8:44:93:D6:1B:D0:05:03
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/maven/com.belerweb/pinyin4j/pom.properties'
+        exclude 'META-INF/maven/com.belerweb/pinyin4j/pom.xml'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 输出apk名称为ForWatch_v1.1(2)_2016-09-28_15-54-35.apk
+                def version = "v${versionName}_${versionCode}"
+                def endIndex = outputFile.name.indexOf('.apk')
+                def apkName = outputFile.name.substring(0, endIndex);
+                def fileName = "${apkName}_${version}.apk"
+                //output.outputFile = new File(outputFile.parent, fileName)
+                outputFileName = fileName
+            }
+        }
+    }
+
+
+
     buildTypes {
+        debug{
+            minifyEnabled false
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -25,4 +79,35 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    implementation 'io.netty:netty-transport:5.0.0.Alpha2'
+    implementation 'io.netty:netty-handler:5.0.0.Alpha2'
+    implementation 'io.netty:netty-codec:5.0.0.Alpha2'
+    implementation 'com.google.protobuf:protobuf-java:2.6.1'
+
+    implementation 'com.handmark.pulltorefresh:pulltorefresh:1.0@aar'
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation 'com.squareup.okio:okio:1.7.0'
+    implementation 'com.orhanobut:logger:1.15'
+
+
+    implementation("com.github.hotchemi:permissionsdispatcher:3.2.0") {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.2.0"
+
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+
+    implementation 'com.google.code.gson:gson:2.4'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
 }
