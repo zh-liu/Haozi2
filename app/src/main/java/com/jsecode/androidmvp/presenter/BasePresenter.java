@@ -31,10 +31,15 @@ public abstract class BasePresenter <M, V>{
     }
 
 
+    /**
+     * 释放引用，防止内存泄露
+     */
+
     public void onDettach() {
         if (null != mViewRef) {
             mViewRef.clear();
             mViewRef = null;
+            System.gc();
         }
     }
 }
