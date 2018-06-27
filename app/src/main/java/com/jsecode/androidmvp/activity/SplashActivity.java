@@ -20,6 +20,7 @@ import com.jsecode.androidmvp.entities.response.InitResp;
 import com.jsecode.androidmvp.model.init.InitModel;
 import com.jsecode.androidmvp.presenter.init.InitPresenter;
 import com.jsecode.androidmvp.utils.SnackbarUtil;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import permissions.dispatcher.NeedsPermission;
@@ -47,29 +48,37 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
     }
 
     public void initData() {
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        Data.init = null;
+        try{
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 
+            String deviceId = tm.getDeviceId();
 
-        String deviceId = tm.getDeviceId();
+            String imsi = tm.getSubscriberId();
+            String model = Build.MODEL;
 
-        String imsi = tm.getSubscriberId();
-        String model = Build.MODEL;
+            String phoneNumber = tm.getLine1Number();
+            String sdkVersion = Build.VERSION.RELEASE;
+            int sdkInt = Build.VERSION.SDK_INT;
+            String versionName = BuildConfig.VERSION_NAME;
+            int versionCode = BuildConfig.VERSION_CODE;
 
-        String phoneNumber = tm.getLine1Number();
-        String sdkVersion = Build.VERSION.RELEASE;
-        int sdkInt = Build.VERSION.SDK_INT;
-        String versionName = BuildConfig.VERSION_NAME;
-        int versionCode = BuildConfig.VERSION_CODE;
+            Data.init  = new Init(deviceId, imsi, model, phoneNumber, sdkVersion, sdkInt, versionName, versionCode);
+        }catch (SecurityException e){
+            e.printStackTrace();
+            Logger.e(e.getMessage(),SplashActivity.class);
+        }
 
-        Data.init = new Init(deviceId, imsi, model, phoneNumber, sdkVersion, sdkInt, versionName, versionCode);
 
     }
 
 
     @Override
     public Init getInit() {
-        initData();
+        if(null == Data.init){
+            initData();
+        }
         return Data.init;
     }
 
