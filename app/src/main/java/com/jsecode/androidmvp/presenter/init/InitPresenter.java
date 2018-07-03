@@ -3,7 +3,6 @@ package com.jsecode.androidmvp.presenter.init;
 import android.os.Handler;
 
 import com.jsecode.androidmvp.contract.init.InitContract;
-import com.jsecode.androidmvp.entities.request.Init;
 import com.jsecode.androidmvp.entities.response.InitResp;
 import com.jsecode.androidmvp.listener.MVPListener;
 import com.orhanobut.logger.Logger;

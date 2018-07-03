@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.jsecode.androidmvp.model.IBaseModel;
 import com.jsecode.androidmvp.presenter.BasePresenter;
 import com.jsecode.androidmvp.utils.CreateUtil;
+import com.orhanobut.logger.Logger;
 
 import butterknife.ButterKnife;
 
@@ -25,6 +26,7 @@ public abstract class BaseActivity <T extends BasePresenter, M extends IBaseMode
 
         //内部获取第一个类型参数的真实类型  ，反射new出对象
         mPresenter = CreateUtil.getT(this, 0);
+
         //内部获取第二个类型参数的真实类型  ，反射new出对象
         mModel = CreateUtil.getT(this, 1);
         //使得P层绑定M层和V层，持有M和V的引用

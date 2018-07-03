@@ -105,10 +105,7 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
         Data.init = null;
         try{
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
-
             String deviceId = tm.getDeviceId();
-
             String imsi = tm.getSubscriberId();
             String model = Build.MODEL;
 

@@ -36,6 +36,7 @@
 #---------------------------------默认保留区---------------------------------
 #继承activity,application,service,broadcastReceiver,contentprovider....不进行混淆
 -keep public class * extends android.app.Activity
+-keep public class * extends android.support.v7.app.AppCompatActivity
 -keep public class * extends android.app.Application
 -keep public class * extends android.support.multidex.MultiDexApplication
 -keep public class * extends android.app.Service
@@ -160,32 +161,6 @@
 
 -keep public class com.jsecode.androidmvp.utils.CreateUtil{*;}
 
-#
-##permissions.dispatcher
--dontwarn com.github.hotchemi.permissions.dispatcher.**
-#-keep    com.github.hotchemi.permissions.dispatcher.**
-#
-
-
-
-#eventbus 3.0
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
-
-
-#EventBus
--keepclassmembers class ** {
-    public void onEvent*(**);
-}
--keepclassmembers class ** {
-public void xxxxxx(**);
-}
 
 
 ################gson##################
@@ -232,58 +207,35 @@ public void xxxxxx(**);
 -keep class com.squareup.picasso.** {*; }
 -dontwarn com.squareup.picasso.**
 
-#glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
-# #  ######## greenDao混淆  ##########
-# # -------------------------------------------
--keep class de.greenrobot.dao.** {*;}
--keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
-    public static Java.lang.String TABLENAME;
-}
--keep class **$Properties
-# #  ############### volley混淆  ###############
-# # -------------------------------------------
--keep class com.android.volley.** {*;}
--keep class com.android.volley.toolbox.** {*;}
--keep class com.android.volley.Response$* { *; }
--keep class com.android.volley.Request$* { *; }
--keep class com.android.volley.RequestQueue$* { *; }
--keep class com.android.volley.toolbox.HurlStack$* { *; }
--keep class com.android.volley.toolbox.ImageLoader$* { *; }
-
-#jpush极光推送
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
-
-#activeandroid
--keep class com.activeandroid.** { *; }
--dontwarn com.ikoding.app.biz.dataobject.**
--keep public class com.ikoding.app.biz.dataobject.** { *;}
--keepattributes *Annotation*
-
-#log4j
--dontwarn org.apache.log4j.**
--keep class  org.apache.log4j.** { *;}
-#下面几行 是环信即时通信的代码混淆
--keep class com.easemob.** {*;}
--keep class org.jivesoftware.** {*;}
--dontwarn  com.easemob.**
-
-#高徳地图
--dontwarn com.amap.api.**
--dontwarn com.a.a.**
--dontwarn com.autonavi.**
--keep class com.amap.api.**  {*;}
--keep class com.autonavi.**  {*;}
--keep class com.a.a.**  {*;}
 #---------------------------------反射相关的类和方法-----------------------
 #在这下面写反射相关的类和方法，没有就不用写！
 
+-keepattributes Signature
+
+#-keep class com.jsecode.androidmvp.presenter.** {*;}
+#
+#-keep class com.jsecode.androidmvp.model.** {*;}
+
+-keep public class com.jsecode.androidmvp.utils.CreateUtil{*;}
+
+
+
+-keep public class * extends com.jsecode.androidmvp.presenter.BasePresenter
+
+-keep public interface com.jsecode.androidmvp.presenter.BasePresenter{public *;}
+-keep class * implements com.jsecode.androidmvp.presenter.BasePresenter{
+<methods>;
+<fields>;
+}
+
+
+-keep public class * extends com.jsecode.androidmvp.model.IBaseModel
+
+-keep public interface com.jsecode.androidmvp.model.IBaseModel{public *;}
+-keep class * implements com.jsecode.androidmvp.model.IBaseModel{
+<methods>;
+<fields>;
+}
 
 
 
@@ -292,44 +244,4 @@ public void xxxxxx(**);
 
 #---------------------------------自定义View的类------------------------
 #在这下面写自定义View的类的类，没有就去掉这句话！
-
-
-#SuperID
-#由*郭宇翔*贡献混淆代码
-#作者Github地址：https://github.com/yourtion
--keep class **.R$* {*;}
--keep class com.isnc.facesdk.aty.**{*;}
--keep class com.isnc.facesdk.**{*;}
--keep class com.isnc.facesdk.common.**{*;}
--keep class com.isnc.facesdk.net.**{*;}
--keep class com.isnc.facesdk.view.**{*;}
--keep class com.isnc.facesdk.viewmodel.**{*;}
--keep class com.matrixcv.androidapi.face.**{*;}
-
-#retrofit2.x
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Signature
--keepattributes Exceptions
-
-#Rxjava RxAndroid
--dontwarn rx.*
--dontwarn sun.misc.**
-
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-   long producerIndex;
-   long consumerIndex;
-}
-
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
-
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode consumerNode;
-}
-
-
-# Glide specific rules #
-# https://github.com/bumptech/glide
 
