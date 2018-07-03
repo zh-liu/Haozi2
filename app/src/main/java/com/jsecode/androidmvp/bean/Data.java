@@ -1,4 +1,4 @@
-package com.jsecode.androidmvp;
+package com.jsecode.androidmvp.bean;
 
 
 import com.jsecode.androidmvp.entities.request.Init;
