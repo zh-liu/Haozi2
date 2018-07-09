@@ -22,7 +22,7 @@ public abstract class BasePresenter <M, V>{
         if (isAttach()) {
             return mViewRef.get();
         } else {
-            return null;
+             return null;
         }
     }
 

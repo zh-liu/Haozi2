@@ -155,6 +155,14 @@
 -keep class com.orhanobtu.logger.**
 
 
+# #  ######## greenDao混淆  ##########
+# # -------------------------------------------
+-keep class de.greenrobot.dao.** {*;}
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+    public static Java.lang.String TABLENAME;
+}
+
+
 #Interface
 -keep interface com.jsecode.androidmvp.**{*;}
 -keep public abstract class com.jsecode.androidmvp.**{*;}
@@ -244,4 +252,5 @@
 
 #---------------------------------自定义View的类------------------------
 #在这下面写自定义View的类的类，没有就去掉这句话！
+-keep public class com.jsecode.androidmvp.custom.*{*;}
 

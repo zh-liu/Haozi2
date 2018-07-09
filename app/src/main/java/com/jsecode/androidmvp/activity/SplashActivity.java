@@ -44,6 +44,8 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
     RelativeLayout rela_bg;
 
 
+
+
     @Override
     public int getLayoutResId() {
         return R.layout.activity_splash;
@@ -52,6 +54,7 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -92,10 +95,10 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
                 }
             }else{
-                initData();
+                mPresenter.postInit();
             }
         } else {
-            initData();
+            mPresenter.postInit();
         }
 
 
@@ -157,14 +160,6 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
 
 
 
-
-    @Override
-    public void initView() {
-
-
-
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -174,7 +169,10 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    SnackbarUtil.ShortSnackbar(rela_bg,"返回通过").show();
+                  //  SnackbarUtil.ShortSnackbar(rela_bg,"返回通过").show();
+
+                    mPresenter.postInit();
+
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -217,75 +215,6 @@ public class SplashActivity extends BaseActivity<InitPresenter,InitModel> implem
             }
         }
     }
-    //
-//    @NeedsPermission({Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-//    void init() {
-//        mPresenter.postInit();
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        SplashActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-//    }
-//
-//
-//
-//    @OnShowRationale({Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
-//    void whyPermission(final PermissionRequest request) {
-//
-//        new AlertDialog.Builder(this)
-//                .setPositiveButton("打开", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // TODO: 2016/11/10 打开系统设置权限
-//                        request.proceed();
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        request.cancel();
-//                    }
-//                })
-//                .setCancelable(false)
-//                .setMessage("挑战需要存储权限，应用将要申请存储权限")
-//                .show();
-//
-//
-//    }
-//
-//    @OnPermissionDenied({Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
-//    void onDenied() {
-//        SnackbarUtil.ShortSnackbar(rela_bg, "拒绝存储权限将无法进行挑战").show();
-//        finish();
-//    }
-//
-//    @OnNeverAskAgain({Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
-//    void prohibit() {
-//
-//        new AlertDialog.Builder(this)
-//                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // TODO: 2016/11/10 打开系统设置权限
-//                        dialog.cancel();
-//                    }
-//                })
-//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                        finish();
-//                    }
-//                })
-//                .setCancelable(false)
-//                .setMessage("您已经禁止了存储权限,是否现在去开启")
-//                .show();
-//
-//
-//    }
-//
 
 
 
